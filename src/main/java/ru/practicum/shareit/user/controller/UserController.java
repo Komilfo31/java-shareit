@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,6 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @Transactional
     public UserDto create(@RequestBody UserDto userDto) {
         return userService.create(userDto);
     }
