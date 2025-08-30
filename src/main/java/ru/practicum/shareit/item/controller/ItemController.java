@@ -52,8 +52,8 @@ public class ItemController {
             @RequestHeader("X-Sharer-User-Id") Long ownerId,
             @RequestParam(defaultValue = "0") Integer from,
             @RequestParam(defaultValue = "10") Integer size) {
-        int page = from / size;
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(from / size, size);
+        List<ItemDto> items = itemService.getAllByOwnerId(ownerId, pageable);
         return itemService.getAllByOwnerId(ownerId, pageable);
     }
 
@@ -62,8 +62,8 @@ public class ItemController {
             @RequestParam String text,
             @RequestParam(defaultValue = "0") Integer from,
             @RequestParam(defaultValue = "10") Integer size) {
-        int page = from / size;
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(from / size, size);
+        List<ItemDto> items = itemService.search(text, pageable);
         return itemService.search(text, pageable);
     }
 

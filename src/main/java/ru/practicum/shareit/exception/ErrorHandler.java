@@ -98,4 +98,9 @@ public class ErrorHandler {
         return new ErrorResponse("Validation failed: " + e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleRuntimeException(RuntimeException e) {
+        return new ErrorResponse("Произошла непредвиденная ошибка при обработке запроса.");
+    }
+
 }

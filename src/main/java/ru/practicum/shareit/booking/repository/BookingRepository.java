@@ -2,8 +2,10 @@ package ru.practicum.shareit.booking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
+import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 
@@ -49,4 +51,12 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findNextBooking(Long itemId, LocalDateTime now);
 
     List<Booking> findByItemIdAndBookerIdAndEndBefore(Long itemId, Long bookerId, LocalDateTime end);
+
+    @Query("SELECT (b.item.id, " +
+            "(SELECT b1 FROM Booking b1 WHERE b1.item.id = :itemId AND b1.status = 'APPROVED' " +
+            "AND b1.start <= CURRENT_TIMESTAMP ORDER BY b1.start DESC LIMIT 1), " +
+            "(SELECT b2 FROM Booking b2 WHERE b2.item.id = :itemId AND b2.status = 'APPROVED' " +
+            "AND b2.start > CURRENT_TIMESTAMP ORDER BY b2.start ASC LIMIT 1)) " +
+            "FROM Booking b WHERE b.item.id = :itemId")
+    BookingDto findLastAndNextBookingsForItem(@Param("itemId") Long itemId);
 }

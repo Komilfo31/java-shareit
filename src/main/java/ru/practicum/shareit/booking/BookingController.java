@@ -70,11 +70,6 @@ public class BookingController {
             @RequestParam(defaultValue = "0") Integer from,
             @RequestParam(defaultValue = "10") Integer size) {
 
-        try {
-            BookingState.valueOf(state.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new InvalidStateException("Unknown state: " + state);
-        }
 
         int page = from / size;
         Pageable pageable = PageRequest.of(page, size);
@@ -93,7 +88,7 @@ public class BookingController {
         try {
             BookingState.valueOf(state.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new InvalidStateException("Unknown state: " + state);
+            throw new InvalidStateException("Неизвестный статус: " + state);
         }
 
         int page = from / size;
