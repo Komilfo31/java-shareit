@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.CommentNotAllowedException;
 import ru.practicum.shareit.exception.ItemNotFoundException;
@@ -184,8 +185,8 @@ public class ItemServiceImpl implements ItemService {
         User author = userRepository.findById(authorId)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
 
-        List<Booking> bookings = bookingRepository.findByItemIdAndBookerIdAndEndBefore(
-                itemId, authorId, LocalDateTime.now());
+        List<Booking> bookings = bookingRepository.findByItemIdAndBookerIdAndStatus(
+                itemId, authorId, BookingStatus.APPROVED);
 
         if (bookings.isEmpty()) {
             throw new CommentNotAllowedException("Вы не можете комментировать этот товар");

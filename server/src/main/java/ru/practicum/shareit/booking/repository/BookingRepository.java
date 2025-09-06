@@ -59,4 +59,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "AND b2.start > CURRENT_TIMESTAMP ORDER BY b2.start ASC LIMIT 1)) " +
             "FROM Booking b WHERE b.item.id = :itemId")
     BookingDto findLastAndNextBookingsForItem(@Param("itemId") Long itemId);
+
+    @Query("SELECT b FROM Booking b WHERE b.item.id = :itemId AND b.booker.id = :bookerId AND b.status = :status")
+    List<Booking> findByItemIdAndBookerIdAndStatus(
+            @Param("itemId") Long itemId,
+            @Param("bookerId") Long bookerId,
+            @Param("status") BookingStatus status);
 }

@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookingDto;
 
 
-import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -18,20 +18,21 @@ import java.util.List;
 @AllArgsConstructor
 public class ItemDto {
     private Long id;
-
     @NotBlank(message = "Наименование не может быть пустым")
+    @JsonProperty("name")
     private String name;
-
     @NotBlank(message = "Описание не может быть пустым")
+    @JsonProperty("description")
     private String description;
-
     @NotNull(message = "Available cannot be null")
+    @JsonProperty("available")
     private Boolean available;
-
+    @JsonProperty("requestId")
     private Long requestId;
+    @JsonProperty("lastBooking")
     private BookingDto lastBooking;
+    @JsonProperty("nextBooking")
     private BookingDto nextBooking;
-
-    @Builder.Default
-    private List<CommentDto> comments = Collections.emptyList();
+    @JsonProperty("comments")
+    private List<CommentDto> comments;
 }
